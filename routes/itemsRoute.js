@@ -19,7 +19,6 @@ module.exports = (app) => {
     })
 
     app.get(`${ITEM_URL}/:itemId`, (req, res) => {
-
         const itemId = req.params.itemId;
         itemService.getById(itemId)
             .then(item => res.json(item))
@@ -29,7 +28,6 @@ module.exports = (app) => {
         const itemId = req.params.itemId;
         itemService.remove(itemId)
             .then(() => res.end(`Item ${itemId} Deleted `))
-
     })
 
     app.post(ITEM_URL, (req, res) => {

@@ -44,6 +44,7 @@ function add(item) {
             const collection = db.collection('DB_COLLECTION_NAME');
             return collection.insertOne(item)
                 .then(result => {
+                    console.log('*** insertOne returned:',result);
                     item._id = result.insertedId;
                     return item;
                 })
