@@ -1,4 +1,4 @@
-const reviewService = require('../services/review-service.js')
+const reviewService = require('../services/reviewService.js')
 const REV = '/review'
 
 module.exports = (app) => {
