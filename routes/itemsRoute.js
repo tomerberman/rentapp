@@ -1,46 +1,49 @@
-const TOY_URL = '/toy';
-const toyService = require('../services/toy-service')
+const ITEM_URL = '/item';
+const itemService = require('../services/itemService')
 
 module.exports = (app) => {
 
-    app.get(`${TOY_URL}`, (req, res) => {
-        const filterBy = req.query.filterBy
-        if (filterBy === '') {
-            toyService.query()
-                .then(toys => res.json(toys))
-        } else {
-            toyService.toysFiltered(filterBy)
-                .then(toys => res.json(toys))
-        }
+    app.get(`${ITEM_URL}`, (req, res) => {
+        console.log('*** itemsRoute app.get ***');
+        // const filterBy = req.query.filterBy
+        // if (filterBy === '') {
+            itemService.query()
+                .then(items => {
+                    console.log('*** itemService.query.then returned items ***',items);
+                    res.json(items)
+                })
+        // } else {
+            // itemService.itemsFiltered(filterBy)
+                // .then(items => res.json(items))
+        // }
     })
 
-    app.get(`${TOY_URL}/:toyId`, (req, res) => {
-
-        const toyId = req.params.toyId;
-        toyService.getById(toyId)
-            .then(toy => res.json(toy))
+    app.get(`${ITEM_URL}/:itemId`, (req, res) => {
+        const itemId = req.params.itemId;
+        itemService.getById(itemId)
+            .then(item => res.json(item))
     })
 
-    app.delete(`${TOY_URL}/:toyId`, (req, res) => {
-        const toyId = req.params.toyId;
-        toyService.remove(toyId)
-            .then(() => res.end(`Toy ${toyId} Deleted `))
 
+    app.delete(`${ITEM_URL}/:itemId`, (req, res) => {
+        const itemId = req.params.itemId;
+        itemService.remove(itemId)
+            .then(() => res.end(`Item ${itemId} Deleted `))
     })
 
-    app.post(TOY_URL, (req, res) => {
-        const toy = req.body;
-        toyService.add(toy)
-            .then(toy => {
-                res.json(toy)
+    app.post(ITEM_URL, (req, res) => {
+        const item = req.body;
+        itemService.add(item)
+            .then(item => {
+                res.json(item)
             })
-            .catch(err => res.status(500).send('Could not add toy'))
+            .catch(err => res.status(500).send('Could not add item'))
     })
 
-    app.put(`${TOY_URL}/:toyId`, (req, res) => {
-        const toy = req.body;
-        toyService.update(toy)
-            .then(toy => res.json(toy))
-            .catch(err => res.status(500).send('Could not update toy'))
+    app.put(`${ITEM_URL}/:itemId`, (req, res) => {
+        const item = req.body;
+        itemService.update(item)
+            .then(item => res.json(item))
+            .catch(err => res.status(500).send('Could not update item'))
     })
 }
