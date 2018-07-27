@@ -2,8 +2,8 @@
 const userService = require('../services/userService.js')
 const USER_URL = '/user';
 
-module.exports = (app) => {
 
+module.exports = (app) => {
 
     app.post(`${USER_URL}/signUp`, (req, res) => {
         const user = req.body;
@@ -32,9 +32,10 @@ module.exports = (app) => {
     })
 
     app.get(`${USER_URL}/:userId`, (req, res) => {
+        console.log('user id req params is', req.params)
         const user = req.params.userId;
         console.log('Id from Route', user);
-        userService.getById(user)
+        userService.getUserById(user)
             .then(user => res.json(user))
     })
 }
