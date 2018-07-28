@@ -5,18 +5,19 @@ const USER_URL = '/user';
 
 module.exports = (app) => {
 
-    app.post(`${USER_URL}/signUp`, (req, res) => {
-        const user = req.body;
-        console.log(user);
-        
+    app.post(`${USER_URL}/signup`, (req, res) => {
+        const user = req.body;        
         var newUser = {
             "name": user.name,
+            "password":user.password,
             "email": user.email,
             "address": user.address,
             "image": '',
             "itemsForRent": [],
             "favoriteItems": []
         }
+        console.log(newUser);
+        
         userService.addUser(newUser)
             .then(addeduser => {
                 req.session.user = addeduser;
@@ -27,10 +28,10 @@ module.exports = (app) => {
             })
     })
     app.post(`${USER_URL}/checkLogin`, (req, res) => {
-        const nickName = req.body
-        userService.checkLogin(nickName)
+        const user = req.body                
+        userService.checkLogin(user.user)
             .then(user => {
-                req.session.user = user;
+                req.session.user = user; 
                 return res.json(user)
             })
             .catch(err => res.status(401).send('Wrong user/pass'))
