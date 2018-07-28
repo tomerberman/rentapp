@@ -39,7 +39,7 @@ function getByOwnerId(ownerId) {
 function add(item) {
     return connectToMongo()
         .then(db => {
-            const collection = db.collection('DB_COLLECTION_NAME');
+            const collection = db.collection(DB_COLLECTION_NAME);
             return collection.insertOne(item)
                 .then(result => {
                     item._id = result.insertedId;
