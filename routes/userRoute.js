@@ -7,7 +7,17 @@ module.exports = (app) => {
 
     app.post(`${USER_URL}/signUp`, (req, res) => {
         const user = req.body;
-        userService.addUser(user)
+        console.log(user);
+        
+        var newUser = {
+            "name": user.name,
+            "email": user.email,
+            "address": user.address,
+            "image": '',
+            "itemsForRent": [],
+            "favoriteItems": []
+        }
+        userService.addUser(newUser)
             .then(addeduser => {
                 req.session.user = addeduser;
                 return res.json(addeduser);
@@ -32,9 +42,9 @@ module.exports = (app) => {
     })
 
     app.get(`${USER_URL}/:userId`, (req, res) => {
-        console.log('user id req params is', req.params)
+        // console.log('user id req params is', req.params)
         const user = req.params.userId;
-        console.log('Id from Route', user);
+        // console.log('Id from Route', user);
         userService.getUserById(user)
             .then(user => res.json(user))
     })

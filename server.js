@@ -5,10 +5,10 @@ const session = require('express-session')
 
 var bodyParser = require('body-parser')
 const app = express()
-// const toyService = require('./services/toy-service')
-// app.use(express.static('dist'));
- 
-// app.use(cors())
+
+app.use(express.static('frontend'));
+
+
 app.use(cors({
     origin: ['http://localhost:8080'],
     credentials: true // enable set cookie
