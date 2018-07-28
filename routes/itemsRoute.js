@@ -24,6 +24,12 @@ module.exports = (app) => {
             .then(item => res.json(item))
     })
 
+    app.get(`${ITEM_URL}/query/:ownerId`, (req, res) => {
+        const ownerId = req.params.ownerId;
+        itemService.getByOwnerId(ownerId)
+            .then(item => res.json(item))
+    })
+
 
     app.delete(`${ITEM_URL}/:itemId`, (req, res) => {
         const itemId = req.params.itemId;

@@ -32,10 +32,9 @@ module.exports = (app) => {
     })
 
     app.get(`${USER_URL}/:userId`, (req, res) => {
-        console.log('user id req params is', req.params)
         const user = req.params.userId;
-        console.log('Id from Route', user);
         userService.getUserById(user)
             .then(user => res.json(user))
     })
+    
 }
