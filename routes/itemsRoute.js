@@ -4,12 +4,12 @@ const itemService = require('../services/itemService')
 module.exports = (app) => {
 
     app.get(`${ITEM_URL}`, (req, res) => {
-        console.log('*** itemsRoute app.get ***');
+        // console.log('*** itemsRoute app.get ***');
         // const filterBy = req.query.filterBy
         // if (filterBy === '') {
             itemService.query()
                 .then(items => {
-                    console.log('*** itemService.query.then returned items ***',items);
+                    // console.log('*** itemService.query.then returned items ***',items);
                     res.json(items)
                 })
         // } else {

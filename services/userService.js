@@ -24,7 +24,7 @@ function addUser(user) {
 }
 
 function checkLogin(creds) {
-    console.log('checkLoginnnnn', creds);
+    // console.log('checkLoginnnnn', creds);
     return connectToMongo()
         .then(db => {
             const collection = db.collection(DB_COLLECTION_NAME);
@@ -52,7 +52,7 @@ module.exports = {
 
 function connectToMongo() {
     const MongoClient = require('mongodb').MongoClient;
-    const url =       'mongodb://sts:sts123@ds145881.mlab.com:45881/rentapp';
+    const url = 'mongodb://sts:sts123@ds145881.mlab.com:45881/rentapp';
     return MongoClient.connect(url)
         .then(client => client.db())
 }
