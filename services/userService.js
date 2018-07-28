@@ -7,7 +7,7 @@ function query() {
         .then(db => {
             const collection = db.collection(DB_COLLECTION_NAME);
             let users = collection.find({}).toArray()
-            return Promise.resolve(user)
+            return users;
         })
 }
 
@@ -23,12 +23,11 @@ function addUser(user) {
         })
 }
 
-function checkLogin(creds) {
-    // console.log('checkLoginnnnn', creds);
+function checkLogin(creds) {    
     return connectToMongo()
         .then(db => {
             const collection = db.collection(DB_COLLECTION_NAME);
-            return collection.findOne({ userName: creds.username })
+            return collection.findOne({ name: creds.name })
         })
 }
 
@@ -40,8 +39,6 @@ function getUserById(userId) {
             return collection.findOne({ _id: userId })
         })
 }
-
-
 
 module.exports = {
     query,
@@ -56,22 +53,3 @@ function connectToMongo() {
     return MongoClient.connect(url)
         .then(client => client.db())
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
