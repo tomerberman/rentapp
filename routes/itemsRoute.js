@@ -48,6 +48,8 @@ module.exports = (app) => {
 
     app.put(`${ITEM_URL}/:itemId`, (req, res) => {
         const item = req.body;
+        console.log(req);
+        
         itemService.update(item)
             .then(item => res.json(item))
             .catch(err => res.status(500).send('Could not update item'))

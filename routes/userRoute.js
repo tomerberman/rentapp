@@ -6,21 +6,22 @@ const USER_URL = '/user';
 module.exports = (app) => {
 
     app.post(`${USER_URL}/signup`, (req, res) => {
-        const user = req.body;        
+        const user = req.body;
         var newUser = {
             "name": user.name,
-            "password":user.password,
+            "password": user.password,
             "email": user.email,
             "address": user.address,
             "image": '',
             "itemsForRent": [],
             "favoriteItems": []
         }
-        console.log(newUser);
-        
+        // console.log(newUser);
+
         userService.addUser(newUser)
             .then(addeduser => {
                 req.session.user = addeduser;
+                console.log(req.session);
                 return res.json(addeduser);
             })
             .catch(err => {
@@ -28,13 +29,31 @@ module.exports = (app) => {
             })
     })
     app.post(`${USER_URL}/checkLogin`, (req, res) => {
-        const user = req.body                
+        const user = req.body
         userService.checkLogin(user.user)
             .then(user => {
-                req.session.user = user; 
+                req.session.user = user;                
                 return res.json(user)
             })
             .catch(err => res.status(401).send('Wrong user/pass'))
+    })
+
+    app.post(`${USER_URL}/favorites/:itemId`, (req, res) => {
+        const itemId = req.params.itemId
+        const user = req.body
+        userService.addFavorites(itemId, user)
+            .then((user) => {
+                // req.session.user = user
+                // console.log('this is the new user ' , user)
+                return res.json(user)
+            })
+        // const user = req.body                
+        // userService.checkLogin(user.user)
+        //     .then(user => {
+        //         req.session.user = user; 
+        //         return res.json(user)
+        //     })
+        //     .catch(err => res.status(401).send('Wrong user/pass'))
     })
 
     app.get(`${USER_URL}`, (req, res) => {
@@ -49,5 +68,5 @@ module.exports = (app) => {
         userService.getUserById(user)
             .then(user => res.json(user))
     })
-    
+
 }

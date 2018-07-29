@@ -23,7 +23,7 @@ function addUser(user) {
         })
 }
 
-function checkLogin(creds) {    
+function checkLogin(creds) {
     return connectToMongo()
         .then(db => {
             const collection = db.collection(DB_COLLECTION_NAME);
@@ -40,11 +40,31 @@ function getUserById(userId) {
         })
 }
 
+function addFavorites(itemId, user) {
+    var userId = user._id
+    userId = new ObjectId(userId)
+    itemId = new ObjectId(itemId)
+    return connectToMongo()
+        .then(db => {
+            const collection = db.collection(DB_COLLECTION_NAME)
+            return collection.update(
+                { _id: userId },
+                { $push: { favoriteItems: itemId } }
+            )
+                .then(() => {
+                    return collection.findOne({ _id: userId })
+
+                })
+        })
+}
+
+
 module.exports = {
     query,
     getUserById,
     checkLogin,
-    addUser
+    addUser,
+    addFavorites
 }
 
 function connectToMongo() {
