@@ -7,14 +7,14 @@ module.exports = (app) => {
         // console.log('*** itemsRoute app.get ***');
         // const filterBy = req.query.filterBy
         // if (filterBy === '') {
-            itemService.query()
-                .then(items => {
-                    // console.log('*** itemService.query.then returned items ***',items);
-                    res.json(items)
-                })
+        itemService.query()
+            .then(items => {
+                // console.log('*** itemService.query.then returned items ***',items);
+                res.json(items)
+            })
         // } else {
-            // itemService.itemsFiltered(filterBy)
-                // .then(items => res.json(items))
+        // itemService.itemsFiltered(filterBy)
+        // .then(items => res.json(items))
         // }
     })
 
@@ -40,9 +40,13 @@ module.exports = (app) => {
 
     app.post(ITEM_URL, (req, res) => {
         const item = req.body;
-        itemService.add(item)
-            .then(item => {
-                res.json(item)
+        const user = req.session.user
+        var addedItem = item
+        addedItem.dateCreated = Date.now()
+        addedItem.ownerId = user._id
+        itemService.add(addedItem)
+            .then(addedItem => {
+                res.json(addedItem)
             })
             .catch(err => res.status(500).send('Could not add item'))
     })
@@ -50,7 +54,7 @@ module.exports = (app) => {
     app.put(`${ITEM_URL}/:itemId`, (req, res) => {
         const item = req.body;
         console.log(req);
-        
+
         itemService.update(item)
             .then(item => res.json(item))
             .catch(err => res.status(500).send('Could not update item'))
