@@ -33,7 +33,7 @@ function getById(itemId) {
     itemId = new ObjectId(itemId)
     return connectToMongo()
         .then(db => {
-            const collection = db.collection('DB_COLLECTION_NAME').findOne({ _id: itemId});
+            const collection = db.collection('DB_COLLECTION_NAME');
             return collection.findOne({ _id: itemId })
         })
 }
