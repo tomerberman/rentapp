@@ -31,7 +31,6 @@ function getByOwnerId(ownerId) {
     return connectToMongo()
     .then(db => {
         const collection = db.collection(DB_COLLECTION_NAME)
-        console.log('1111' , collection.find({ ownerId: ownerId }).toArray())
         return collection.find({ ownerId: ownerId }).toArray()
     })
 }
@@ -60,13 +59,22 @@ function update(item) {
         })
 }
 
+function filter(criteria){
+    return connectToMongo()
+        .then(db => {
+            const collection = db.collection(DB_COLLECTION_NAME);
+            return collection.find(criteria).toArray()
+        })
+}
+
 module.exports = {
     query,
     remove,
     getById,
     add,
     update,
-    getByOwnerId
+    getByOwnerId,
+    filter
 }
 
 function connectToMongo() {

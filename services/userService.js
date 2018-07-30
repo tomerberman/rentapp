@@ -1,5 +1,6 @@
 const ObjectId = require('mongodb').ObjectId;
 const DB_COLLECTION_NAME = 'user';
+const ItemService = require('./itemService')
 
 
 function query() {
@@ -59,12 +60,43 @@ function addFavorites(itemId, user) {
 }
 
 
+
+async function getUserWithItems (id){
+    var user  = await getUserById(id)
+    var owendItems  = await ItemService.getByOwnerId(id)
+    // db.collection.find( { _id : { $in : [1,2,3,4] } } );
+
+    var rentedItemsObjectIds = user.rentedItems.map(itemId => new ObjectId(itemId))
+    var rentedItemsCriteria = { _id : {$in: rentedItemsObjectIds}}
+    var rentedItems =  await ItemService.filter(rentedItemsCriteria)
+
+    var favoriteItemsObjectIds = user.favoriteItems.map(itemId => new ObjectId(itemId))
+    var favoriteItemsCriteria = { _id : {$in: favoriteItemsObjectIds}}
+    var favoriteItems =  await ItemService.filter(favoriteItemsCriteria)
+
+    return {
+        user : user,
+        owendItems : owendItems,
+        rentedItems : rentedItems,
+        favoriteItems : favoriteItems
+    }
+
+}   
+
+
+// getUserWithItems('5b5ae4606896b0b4bcd5f8a4')
+// .then(x => {
+//     console.log(x)
+// })
+
+
 module.exports = {
     query,
     getUserById,
     checkLogin,
     addUser,
-    addFavorites
+    addFavorites,
+    getUserWithItems
 }
 
 function connectToMongo() {

@@ -32,7 +32,7 @@ module.exports = (app) => {
         const user = req.body
         userService.checkLogin(user.user)
             .then(user => {
-                req.session.user = user;                
+                req.session.user = user;
                 return res.json(user)
             })
             .catch(err => res.status(401).send('Wrong user/pass'))
@@ -47,13 +47,15 @@ module.exports = (app) => {
                 // console.log('this is the new user ' , user)
                 return res.json(user)
             })
-        // const user = req.body                
-        // userService.checkLogin(user.user)
-        //     .then(user => {
-        //         req.session.user = user; 
-        //         return res.json(user)
-        //     })
-        //     .catch(err => res.status(401).send('Wrong user/pass'))
+    })
+
+    app.get(`${USER_URL}/item/:userId`, (req, res) => {
+        console.log(req.params.userId)
+        userService.getUserWithItems(req.params.userId)
+            .then(userWithItems => {
+                console.log(res);
+                res.json(userWithItems);
+            })
     })
 
     app.get(`${USER_URL}`, (req, res) => {
