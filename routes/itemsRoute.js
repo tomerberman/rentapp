@@ -25,6 +25,7 @@ module.exports = (app) => {
     })
 
     app.get(`${ITEM_URL}/:itemId`, (req, res) => {
+        console.log('*** Backend->itemsRoute->app.get got req:',req);
         const itemId = req.params.itemId;
         itemService.getById(itemId)
             .then(item => res.json(item))
