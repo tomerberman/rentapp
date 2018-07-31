@@ -32,7 +32,7 @@ function checkLogin(creds) {
         })
 }
 
-function getUserById(userId) {
+function getUserById(userId) {    
     userId = new ObjectId(userId)
     return connectToMongo()
         .then(db => {

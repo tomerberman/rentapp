@@ -3,7 +3,12 @@ const itemService = require('../services/itemService')
 
 module.exports = (app) => {
 
-  
+    app.get('/elad', (req, res) => {
+        var query = req.query
+        // console.log({query})
+        res.json(query)
+    })
+
     app.get(`${ITEM_URL}`, (req, res) => {
         // console.log('*** itemsRoute app.get ***');
         // const filterBy = req.query.filterBy
@@ -20,7 +25,7 @@ module.exports = (app) => {
     })
 
     app.get(`${ITEM_URL}/:itemId`, (req, res) => {
-        console.log('*** Backend->itemsRoute->app.get got req:',req);
+        // console.log('*** Backend->itemsRoute->app.get got req:',req);
         const itemId = req.params.itemId;
         itemService.getById(itemId)
             .then(item => res.json(item))
@@ -54,7 +59,7 @@ module.exports = (app) => {
 
     app.put(`${ITEM_URL}/:itemId`, (req, res) => {
         const item = req.body;
-        console.log(req);
+        // console.log(req);
 
         itemService.update(item)
             .then(item => res.json(item))
