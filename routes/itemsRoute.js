@@ -3,12 +3,6 @@ const itemService = require('../services/itemService')
 
 module.exports = (app) => {
 
-    app.get('/elad', (req, res) => {
-        var query = req.query
-        // console.log({query})
-        res.json(query)
-    })
-
     app.get(`${ITEM_URL}`, (req, res) => {
         // console.log('*** itemsRoute app.get ***');
         // const filterBy = req.query.filterBy

@@ -26,8 +26,8 @@ var user = {
     Availibility: 'From ' + faker.date.weekday() + ' To ' + faker.date.weekday(),
   };
 
-  console.log('\n____ OWNER: ____\n ', user);
-  console.log('\n____ ITEM: ____\n ', item);
+//   console.log('\n____ OWNER: ____\n ', user);
+//   console.log('\n____ ITEM: ____\n ', item);
 }  
 
 var 
@@ -189,4 +189,4 @@ items = [
   }
 ]
 
-console.log('***********\n',JSON.parse(item));
+// console.log('***********\n',JSON.parse(item));

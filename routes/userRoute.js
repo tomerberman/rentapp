@@ -13,7 +13,7 @@ module.exports = (app) => {
             "email": user.email,
             "address": user.address,
             "image": '',
-            "itemsForRent": [],
+            "rentedItems": [],
             "favoriteItems": []
         }
         // console.log(newUser);
@@ -67,6 +67,15 @@ module.exports = (app) => {
         const user = req.params.userId;
         userService.getUserById(user)
             .then(user => res.json(user))
+    })
+
+    app.put(`${USER_URL}/:userId`, (req, res) => {
+        const user = req.body;  
+        // console.log(userService.updateUser);
+              
+        userService.updateUser(user)
+            .then(user => res.json(user))
+            .catch(err => res.status(500).send('Could not update user'))
     })
 
 }

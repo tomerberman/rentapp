@@ -59,7 +59,17 @@ function addFavorites(itemId, user) {
         })
 }
 
-
+function updateUser(user) {    
+    user._id = new ObjectId(user._id)
+    return connectToMongo()
+        .then(db => {
+            const collection = db.collection(DB_COLLECTION_NAME);
+            return collection.updateOne({ _id: user._id }, { $set: user })
+                .then(res => {
+                    return user;
+                })
+        })
+}
 
 async function getUserWithItems (id){
     var user  = await getUserById(id)
@@ -96,7 +106,8 @@ module.exports = {
     checkLogin,
     addUser,
     addFavorites,
-    getUserWithItems
+    getUserWithItems,
+    updateUser
 }
 
 function connectToMongo() {
