@@ -67,6 +67,7 @@ function filter(criteria){
         })
 }
 
+
 module.exports = {
     query,
     remove,

@@ -1,6 +1,6 @@
 const ObjectId = require('mongodb').ObjectId;
 const DB_COLLECTION_NAME = 'user';
-const ItemService = require('./itemService')
+const ItemService = require('./itemService');
 
 
 function query() {
@@ -72,17 +72,21 @@ function updateUser(user) {
 }
 
 async function getUserWithItems (id){
-    var user  = await getUserById(id)
-    var owendItems  = await ItemService.getByOwnerId(id)
+    var user  = await getUserById(id);
+    var owendItems  = await ItemService.getByOwnerId(id);
+    owendItems = await Promise.all(owendItems.map(getItemWithFullBooking));
     // db.collection.find( { _id : { $in : [1,2,3,4] } } );
 
-    var rentedItemsObjectIds = user.rentedItems.map(itemId => new ObjectId(itemId))
-    var rentedItemsCriteria = { _id : {$in: rentedItemsObjectIds}}
-    var rentedItems =  await ItemService.filter(rentedItemsCriteria)
+    var rentedItemsObjectIds = user.rentedItems.map(itemId => new ObjectId(itemId));
+    var rentedItemsCriteria = { _id : {$in: rentedItemsObjectIds}};
+    var rentedItems =  await ItemService.filter(rentedItemsCriteria);
 
-    var favoriteItemsObjectIds = user.favoriteItems.map(itemId => new ObjectId(itemId))
-    var favoriteItemsCriteria = { _id : {$in: favoriteItemsObjectIds}}
-    var favoriteItems =  await ItemService.filter(favoriteItemsCriteria)
+    var favoriteItemsObjectIds = user.favoriteItems.map(itemId => new ObjectId(itemId));
+    var favoriteItemsCriteria = { _id : {$in: favoriteItemsObjectIds}};
+    var favoriteItems =  await ItemService.filter(favoriteItemsCriteria);
+
+    
+    
 
     return {
         user : user,
@@ -91,7 +95,17 @@ async function getUserWithItems (id){
         favoriteItems : favoriteItems
     }
 
-}   
+}
+
+function getItemWithFullBooking(item) {
+    return Promise.all(item.bookings.map(booking => {
+        return getUserById(booking.renterId)
+    }))
+    .then(renters => {
+        item.bookings.map((booking, i) => booking.renter = renters[i]);
+        return item;
+    })
+}
 
 
 // getUserWithItems('5b5ae4606896b0b4bcd5f8a4')
