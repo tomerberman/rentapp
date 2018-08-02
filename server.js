@@ -6,7 +6,7 @@ const session = require('express-session')
 var bodyParser = require('body-parser')
 const app = express()
 
-app.use(express.static('frontend'));
+app.use(express.static('dist'));
 
 
 app.use(cors({
