@@ -32,6 +32,9 @@ addUserRoutes(app)
 const addReviewRoutes = require('./routes/reviewRoute')
 addReviewRoutes(app)
 
+const addTransactionsRoutes = require('./routes/transactionRoute')
+addTransactionsRoutes(app)
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
  console.log(`App listening on port ${port}!`)
