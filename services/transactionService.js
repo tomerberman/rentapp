@@ -15,7 +15,45 @@ function addTransaction(transaction) {
 
 function getOwnerTransactions(ownerId) {
     const criteria = {}
-    criteria.ownerId = new ObjectId(ownerId)
+    criteria.ownerId = new ObjectId(ownerId);    
+    return connectToMongo().then(db => {
+        return db.collection(DB_COLLECTION_NAME)
+            .aggregate([
+                {
+                    $match: criteria
+                },
+                {
+                    $lookup:
+                        {
+                            from: 'item',
+                            localField: 'itemId',
+                            foreignField: '_id',
+                            as: 'item'
+                        }
+                },
+                {
+                    $unwind: '$item'
+                },
+                {
+                    $lookup:
+                        {
+                            from: 'user',
+                            localField: 'renterId',
+                            foreignField: '_id',
+                            as: 'rentedTo'
+                        }
+                },
+                {
+                    $unwind: '$rentedTo'
+                }
+            ]).toArray()
+    })
+}
+
+function getRenterTransactions(renterId){
+    const criteria = {}
+    criteria.renterId = new ObjectId(renterId)
+    // console.log(renterId)
     return connectToMongo().then(db => {
         return db.collection(DB_COLLECTION_NAME)
             .aggregate([
@@ -40,20 +78,22 @@ function getOwnerTransactions(ownerId) {
                             from: 'user',
                             localField: 'ownerId',
                             foreignField: '_id',
-                            as: 'user'
+                            as: 'fromOwner'
                         }
                 },
                 {
-                    $unwind: '$user'
+                    $unwind: '$fromOwner'
                 }
             ]).toArray()
     })
 }
 
 
+
 module.exports = {
     addTransaction,
-    getOwnerTransactions
+    getOwnerTransactions,
+    getRenterTransactions
 }
 
 function connectToMongo() {
