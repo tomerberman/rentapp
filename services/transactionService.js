@@ -2,6 +2,9 @@ const ObjectId = require('mongodb').ObjectId;
 const DB_COLLECTION_NAME = 'transaction';
 
 function addTransaction(transaction) {
+    transaction.ownerId = new ObjectId(transaction.ownerId)
+    transaction.renterId = new ObjectId(transaction.renterId)
+    transaction.itemId = new ObjectId(transaction.itemId)
     return connectToMongo()
         .then(db => {
             const collection = db.collection(DB_COLLECTION_NAME);
