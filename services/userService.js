@@ -127,6 +127,6 @@ module.exports = {
 function connectToMongo() {
     const MongoClient = require('mongodb').MongoClient;
     const url = 'mongodb://sts:sts123@ds145881.mlab.com:45881/rentapp';
-    return MongoClient.connect(url)
+    return MongoClient.connect(url, { useNewUrlParser: true })
         .then(client => client.db())
 }
