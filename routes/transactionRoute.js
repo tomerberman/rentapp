@@ -11,9 +11,7 @@ module.exports = (app) => {
     })
 
     app.get(`${TRANSACTION_URL}/:ownerId`, (req, res) => {
-        const ownerId = req.params.ownerId;
-        console.log(ownerId);
-        
+        const ownerId = req.params.ownerId;       
         transactionService.getOwnerTransactions(ownerId)
             .then(transactions => res.json(transactions))
     })
