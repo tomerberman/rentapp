@@ -82,7 +82,7 @@ function connectToMongo() {
     const MongoClient = require('mongodb').MongoClient;
     // const urlOLD = 'mongodb://galyo:momo123@ds237445.mlab.com:37445/items_db';
     const url = 'mongodb://sts:sts123@ds145881.mlab.com:45881/rentapp';
-    return MongoClient.connect(url)
+    return MongoClient.connect(url, { useNewUrlParser: true })
         .then(client => client.db())
 }
 
