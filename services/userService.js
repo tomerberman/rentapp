@@ -74,7 +74,7 @@ function updateUser(user) {
 async function getUserWithItems (id){
     var user  = await getUserById(id);
     var owendItems  = await ItemService.getByOwnerId(id);
-    owendItems = await Promise.all(owendItems.map(getItemWithFullBooking));
+    // owendItems = await Promise.all(owendItems.map(getItemWithFullBooking));
     // db.collection.find( { _id : { $in : [1,2,3,4] } } );
 
     var rentedItemsObjectIds = user.rentedItems.map(itemId => new ObjectId(itemId));

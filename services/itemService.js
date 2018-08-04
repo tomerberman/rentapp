@@ -20,6 +20,8 @@ function remove(itemId) {
 
 function getById(itemId) {
     itemId = new ObjectId(itemId)
+    // console.log(itemId);
+    
     return connectToMongo()
         .then(db => {
             const collection = db.collection(DB_COLLECTION_NAME)

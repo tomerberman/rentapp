@@ -16,12 +16,9 @@ module.exports = (app) => {
             "rentedItems": [],
             "favoriteItems": []
         }
-        // console.log(newUser);
-
         userService.addUser(newUser)
             .then(addeduser => {
                 req.session.user = addeduser;
-                // console.log(req.session);
                 return res.json(addeduser);
             })
             .catch(err => {
@@ -43,17 +40,13 @@ module.exports = (app) => {
         const user = req.body
         userService.addFavorites(itemId, user)
             .then((user) => {
-                // req.session.user = user
-                // console.log('this is the new user ' , user)
                 return res.json(user)
             })
     })
 
     app.get(`${USER_URL}/item/:userId`, (req, res) => {
-        // console.log(req.params.userId)
         userService.getUserWithItems(req.params.userId)
             .then(userWithItems => {
-                // console.log(res);
                 res.json(userWithItems);
             })
     })
@@ -70,9 +63,7 @@ module.exports = (app) => {
     })
 
     app.put(`${USER_URL}/:userId`, (req, res) => {
-        const user = req.body;  
-        // console.log(userService.updateUser);
-              
+        const user = req.body;             
         userService.updateUser(user)
             .then(user => res.json(user))
             .catch(err => res.status(500).send('Could not update user'))
