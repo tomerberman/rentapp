@@ -18,7 +18,7 @@ function addTransaction(transaction) {
 
 function getOwnerTransactions(ownerId) {
     const criteria = {}
-    criteria.ownerId = new ObjectId(ownerId);    
+    criteria.ownerId = new ObjectId(ownerId);
     return connectToMongo().then(db => {
         return db.collection(DB_COLLECTION_NAME)
             .aggregate([
@@ -53,7 +53,7 @@ function getOwnerTransactions(ownerId) {
     })
 }
 
-function getRenterTransactions(renterId){
+function getRenterTransactions(renterId) {
     const criteria = {}
     criteria.renterId = new ObjectId(renterId)
     // console.log(renterId)
@@ -91,12 +91,28 @@ function getRenterTransactions(renterId){
     })
 }
 
+function updateTransaction(transaction) {
+    transaction._id = new ObjectId(transaction._id)
+    transaction.ownerId = new ObjectId(transaction.ownerId)
+    transaction.renterId = new ObjectId(transaction.renterId)
+    transaction.itemId = new ObjectId(transaction.itemId)
+    return connectToMongo()
+        .then(db => {
+            const collection = db.collection(DB_COLLECTION_NAME);
+            return collection.updateOne({ _id: transaction._id }, { $set: transaction })
+                .then(res => {
+                    return transaction;
+                })
+        })
+}
+
 
 
 module.exports = {
     addTransaction,
     getOwnerTransactions,
-    getRenterTransactions
+    getRenterTransactions,
+    updateTransaction
 }
 
 function connectToMongo() {
