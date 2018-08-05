@@ -10,7 +10,7 @@ module.exports = (app) => {
             .catch(err => res.status(500).send('Could not confim transaction'))
     })
 
-    app.get(`${TRANSACTION_URL}/:ownerId`, (req, res) => {        
+    app.get(`${TRANSACTION_URL}/:ownerId`, (req, res) => {
         const ownerId = req.params.ownerId;
         transactionService.getOwnerTransactions(ownerId)
             .then(transactions => res.json(transactions))
@@ -20,6 +20,22 @@ module.exports = (app) => {
         const renterId = req.params.renterId;
         transactionService.getRenterTransactions(renterId)
             .then(transactions => res.json(transactions))
+    })
+
+
+    app.put(`${TRANSACTION_URL}/:transactionId`, (req, res) => {
+        const transaction = req.body;
+        var newTransaction = {
+            itemId: transaction.itemId,
+            ownerId: transaction.ownerId,
+            isNew: false,
+            price: transaction.price,
+            renterId: transaction.renterId,
+            dates: transaction.dates
+        }
+        transactionService.updateTransaction(newTransaction)
+            .then(transaction => res.json(transaction))
+            .catch(err => res.status(500).send('Could not update item'))
     })
 
 }
