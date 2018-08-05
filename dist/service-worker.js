@@ -14,10 +14,10 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.4.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.46ac43b9e5a81dfb3ddad0b6b0f5b494.js"
+  "/precache-manifest.c616d3c7821af43e892daba491801d7c.js"
 );
 
-workbox.core.setCacheNameDetails({prefix: "sprint4"});
+workbox.core.setCacheNameDetails({prefix: "WeRent"});
 
 /**
  * The workboxSW.precacheAndRoute() method efficiently caches and responds to
