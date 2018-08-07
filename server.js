@@ -1,7 +1,7 @@
 const express = require('express')
 
 const app = express()
-app.use(express.static('frontend'));
+// const app = require('express')();
 
 // ******
 var http = require('http').Server(app);
@@ -51,32 +51,31 @@ const addTransactionsRoutes = require('./routes/transactionRoute')
 addTransactionsRoutes(app)
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
- console.log(`App listening on port ${port}!`)
-});
+// http.listen(port, () => {
+//  console.log(`App listening on port ${port}!`)
+// });
 
 //  *********************************************************
 
 io.on('connection', function (socket) {
-    
-    console.log('a user connected');
     socket.on('disconnect', function () {
-        console.log('user disconnected');
+        console.log('** socket.on.disconnected -- a user disconnected');
     });
+
     socket.on('chat join', function (nickname) {
-        io.emit('chat connected', nickname);
+        io.emit('chat message', 'you are welcome');
+        // io.emit('chat send-message', 'server talking here!');
     });
+
     socket.on('chat send-message', function (msg) {
-        console.log('message: ' + msg);
-        io.emit('chat message', msg);
-        setTimeout(()=>{
-            io.emit('chat message', 'Support: Sure, why not?');
-        }, 2000)
+            io.emit('chat message', msg);
     });
 });
 
-// http.listen(3000, function () {
-//     console.log('listening on *:3000');
-// });
+http.listen(3000, function () {
+    console.log('listening on *:3000');
+});
+
+
 
 // ************************************************
