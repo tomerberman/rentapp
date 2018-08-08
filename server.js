@@ -19,9 +19,9 @@ app.use(express.static('dist'));
 // ************************************************
 // var app = require('express')();
 
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/chatSocket.vue');
-});
+// app.get('/', function (req, res) {
+//   res.sendFile(__dirname + '/chatSocket.vue');
+// });
 // ****************************************8
 
 app.use(cors({
