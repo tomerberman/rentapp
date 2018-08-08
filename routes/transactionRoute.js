@@ -26,6 +26,7 @@ module.exports = (app) => {
     app.put(`${TRANSACTION_URL}/:transactionId`, (req, res) => {
         const transaction = req.body;
         var newTransaction = {
+            _id: transaction._id,
             itemId: transaction.itemId,
             ownerId: transaction.ownerId,
             isNew: false,
@@ -34,7 +35,7 @@ module.exports = (app) => {
             dates: transaction.dates
         }
         transactionService.updateTransaction(newTransaction)
-            .then(transaction => res.json(transaction))
+            .then(newTransaction => res.json(newTransaction))
             .catch(err => res.status(500).send('Could not update item'))
     })
 
