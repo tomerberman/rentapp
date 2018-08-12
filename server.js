@@ -62,8 +62,8 @@ io.on('connection', function (socket) {
         console.log('** socket.on.disconnected -- a user disconnected');
     });
 
-    socket.on('chat join', function (nickname) {
-        io.emit('chat message', 'you are welcome');
+    socket.on('chat join', function (msg) {
+        io.emit('chat message', {name: 'server', content: msg.name + ' joined the chat'});
         // io.emit('chat send-message', 'server talking here!');
     });
 
