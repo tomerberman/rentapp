@@ -33,6 +33,10 @@
     font-family: 'Roboto Slab-bold', serif;
     } */
     
+    button{
+      cursor: pointer;
+    }
+
     .bold-font{
       font-family: 'Roboto-Bold', sans-serif;
       } 
@@ -62,6 +66,14 @@
       .align-center {
         align-items: center;
     }
+
+    .align-flex-start {
+      align-items: flex-start;
+  }
+
+  .v-menu__activator *{
+    color: black;
+  }
     
 
   
