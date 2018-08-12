@@ -70,10 +70,13 @@
     .align-flex-start {
       align-items: flex-start;
   }
+<<<<<<< HEAD
 
   .v-menu__activator *{
     color: black;
   }
+=======
+>>>>>>> 28cf2b74e4450d2c072f65b574f91522dda843ba
     
 
   
