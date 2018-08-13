@@ -27,7 +27,7 @@ app.use(express.static('dist'));
 app.use(cors({
     origin: ['http://localhost:8080'],
     credentials: true // enable set cookie
-  }));
+}));
 
 app.use(bodyParser.json())
 app.use(cookieParser());
@@ -36,7 +36,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }
-  }))
+}))
 
 const addItemsRoutes = require('./routes/itemsRoute')
 addItemsRoutes(app)
@@ -58,17 +58,21 @@ addTransactionsRoutes(app)
 //  *********************************************************
 
 io.on('connection', function (socket) {
-    socket.on('disconnect', function () {
-        console.log('** socket.on.disconnected -- a user disconnected');
-    });
+    // socket.on('disconnect', function () {
+        // console.log('** socket.on.disconnected -- a user disconnected');
+    // });
 
-    socket.on('chat join', function (msg) {
-        io.emit('chat message', {name: 'server', content: msg.name + ' joined the chat'});
+    socket.on('chat join', (msg) => {
+        io.emit('chat message', { name: 'server', content: msg.name + ' joined the chat' });
         // io.emit('chat send-message', 'server talking here!');
     });
 
-    socket.on('chat send-message', function (msg) {
-            io.emit('chat message', msg);
+    socket.on('chat send-message', (msg) => {
+        io.emit('chat message', msg);
+    });
+
+    socket.on('new-order', (ownerId) => {
+        io.emit('renderTransactions', ownerId)
     });
 });
 
